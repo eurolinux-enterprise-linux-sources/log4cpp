@@ -1,6 +1,6 @@
 Name:           log4cpp
 Version:        1.0
-Release:        13%{?dist}
+Release:        13%{?dist}.1
 Summary:        C++ logging library
 
 Group:          Development/Libraries
@@ -17,6 +17,8 @@ Patch2:         log4cpp-1.0-fix-doc-dest.patch
 Patch3:         log4cpp-1.0-no-snprintf.patch
 # Remove date from html/api footers (as they cause a multi-arch problem)
 Patch4:         log4cpp-1.0-remove-date-from-html-footer.patch
+
+Patch5:         0003-Fixed-bug-in-StringUtil-vform.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -51,6 +53,7 @@ you will need to install %{name}-devel.
 %patch2 -p 1 -b .doc-dest
 %patch3 -p1 -b .no-snprintf
 %patch4 -p1 -b .remove-date-from-html-footer
+%patch5 -p1 -b .string-util-vform-va-list
 
 # Delete non-free (but freely distributable) file under Artistic 1.0
 # just to be sure we're not using it.
@@ -111,6 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 10 2014 Uri Lublin <uril@redhat.com> - 1.0-13.el6_5.1
+- StringUtil::vform -- fix reusing same va_list argument
+Resolves: #1125130
+
 * Mon Apr 26 2010 Uri Lublin <uril@redhat.com> - 1.0-13.el6
   Fix review comments:
     - Remove -doc sub-package
